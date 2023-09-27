@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <form action="https://api.sheetmonkey.io/form/gVtvizyoPvnMrcLim66aDc" method="post"
+    <title>Stock Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #feedback {
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Stock Summary</h1>
+    <br>
+
+    <form id="orderForm">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="branch">Branch:</label>
+        <select id="branch" name="branch" required>
+            <option value="Head Office">Head Office</option>
+            <option value="Bakakyir">Bakakyir</option>
+            <option value="Kojokrom">Kojokrom</option>
+            <option value="Anaji-K">Anaji-K</option>
+            <option value="Type C">Type C</option>
+            <option value="Vol Mgt">Vol Mgt</option>
+            <option value="Agona">Agona</option>
+            <option value="Axim">Axim</option>
+            <option value="Esiama">Esiama</option>
+            <option value="Elubo">Elubo</option>
+            <option value="Half Assini">Half Assini</option>
+        </select>
+        
+        <label for="items">Items:</label>
+        <select id="items" name="items" required>
+            <option value="EVD">EVD</option>
+            <option value="MTN Regular-SIM">MTN Regular-SIM</option>
+            <option value="MTN TRANSFER SIM">MTN TRANSFER SIM</option>
+            <option value="Nokia g21">Nokia g21</option>
+            <option value="Samsung Galaxy A24">Samsung Galaxy A24</option>
+            <option value="Tecno Spark 10 Pro">Tecno Spark 10 Pro</option>
+            <option value="ROUTER">ROUTER</option>
+            <option value="Samsung Galaxy">Samsung Galaxy</option>
+            <option value="Tecno Pop3">Tecno Pop3</option>
+            <option value="MTN 4G ROUTER">MTN 4G ROUTER</option>
+        </select>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" value="1" oninput="calculatePrice()" required>
+
+        <label for="Total">Total:</label>
+        <input type="text" id="price" name="price" readonly>
+
+
+        <input type="submit" value="Submit">
+    </form>
+    <div id="feedback" style="display: none;">
+        Thank you! Submission Recorded.
+    </div>
+    
+    <script>
+    function calculatePrice() {
+            const items = {
+                'EVD': 0.95,
+                'MTN Regular-SIM': 8.5,
+                'MTN TRANSFER SIM': 28.5,
+                'Nokia g21': 1650,
+                'Samsung Galaxy A24': 2600,
+                'Tecno Spark 10 Pro': 1960
+            };
+            const selectedItems = document.getElementById('items').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const price = items[selectedItems] * quantity;
+
+            document.getElementById('price').value = price.toFixed(2);
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('feedback').style.display = 'block';
+ });
+        document.getElementById('orderForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const date = document.getElementById('date').value;
+            const branch = document.getElementById('branch').value;
+            const items = document.getElementById('items').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+
+            const formData = new FormData();
+            formData.append('date', date);
+            formData.append('branch', branch);
+            formData.append('items', items);
+            formData.append('quantity', quantity);
+            formData.append('price', price);
+
+            const scriptURL = "https://api.sheetmonkey.io/form/gVtvizyoPvnMrcLim66aDc"
+            
+            fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => response.text())
+            .then(data => { 
+                alert('Submitted Successfully! Response: ' + data);
+                console.log(data);
+            })
+            .catch(error => { 
+                alert('Error: ' + error);
+                console.error(error);
+            });
+
+            document.getElementById('feedback').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
