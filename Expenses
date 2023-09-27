@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Form</title>
+</head>
+<body>
+    <h1>Expenses Summary</h1>
+    <form action="https://api.sheetmonkey.io/form/s2tNaVG3kzyiw91cPx6AyC" method="post">
+        <label for="branch">Branch:</label>
+        <select id="Branch" name="Branch">
+            <option value="Head Office">Head Office</option>
+            <option value="Bakakyir">Bakakyir</option>
+            <option value="Kojokrom">Kojokrom</option>
+            <option value="Anaji-K">Anaji-K</option>
+            <option value="Type C">Type C</option>
+            <option value="Vol Mgt">Vol Mgt</option>
+            <option value="Agona">Agona</option>
+            <option value="Axim">Axim</option>
+            <option value="Esiama">Esiama</option>
+            <option value="Elubo">Elubo</option>
+            <option value="Half Assini">Half Assini</option>
+        </select><br><br>
+
+        <label for="date">DATE:</label>
+        <input type="Date" id="Date" name="Date"><br><br>
+
+        <label for="description">DESCRIPTION:</label><br>
+        <input type="checkbox" id="internet" name="Description" value="Internet Bill">
+        <label for="internet">Internet Bill</label><br>
+        <input type="checkbox" id="printing" name="Description" value="Printing and Stationery">
+        <label for="printing">Printing and Stationery</label><br>
+        <input type="checkbox" id="repairs-motor" name="Description" value="Repairs & Maintenance -motor">
+        <label for="repairs-motor">Repairs & Maintenance -motor</label><br>
+        <input type="checkbox" id="repairs-office" name="Description" value="Repairs & Maintenance - office">
+        <label for="repairs-office">Repairs & Maintenance - office</label><br>
+        <input type="checkbox" id="cleaning" name="Description" value="Cleaning and Sanitation">
+        <label for="cleaning">Cleaning and Sanitation</label><br>
+        <input type="checkbox" id="fuel" name="Description" value="Fuel and Lubricants">
+        <label for="fuel">Fuel and Lubricants</label><br>
+        <input type="checkbox" id="travel" name="Description" value="Travel and Transports">
+        <label for="travel">Travel and Transports</label><br>
+        <input type="checkbox" id="electricity" name="Description" value="Electricity">
+        <label for="electricity">Electricity</label><br>
+        <input type="checkbox" id="water" name="Description" value="Water">
+        <label for="water">Water</label><br>
+        <input type="checkbox" id="permit" name="Description" value="Business Operating Permit">
+        <label for="permit">Business Operating Permit</label><br>
+        <input type="checkbox" id="counterfeit" name="Description" value="Counterfeit and Others">
+        <label for="counterfeit">Counterfeit and Others</label><br><br>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="Amount" name="Amount"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
