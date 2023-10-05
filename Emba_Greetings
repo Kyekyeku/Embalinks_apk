@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greeting Page</title>
+  <style>
+    #time {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    // Function to get the current time and return a greeting
+    function getGreeting() {
+      var currentTime = new Date().getHours();
+      var greeting;
+
+      if (currentTime < 12) {
+        greeting = "Good morning";
+      } else if (currentTime < 18) {
+        greeting = "Good afternoon";
+      } else {
+        greeting = "Good evening";
+      }
+
+      return greeting;
+    }
+
+    // Function to display the greeting and additional text on the page
+    function displayGreeting() {
+      var greeting = getGreeting();
+      var timeElement = document.getElementById("time");
+      var additionalText = "Kindly CLICK on Emba logo to select your form.";
+
+      // Display greeting
+      document.getElementById("greeting").innerText = greeting + " EMBA MANAGER!";
+
+      // Display additional text in a new paragraph
+      var additionalParagraph = document.createElement("p");
+      additionalParagraph.innerText = additionalText;
+
+      // Display current time in bold and big font
+      var timeText = document.createElement("span");
+      timeText.style.fontWeight = "bold";
+      timeText.style.fontSize = "38px";
+      timeText.innerText = new Date().toLocaleTimeString();
+
+      // Append elements to the body
+      additionalParagraph.appendChild(document.createElement("br")); // Add a line break
+      additionalParagraph.appendChild(timeText);
+      document.body.appendChild(additionalParagraph);
+    }
+
+    // Call the displayGreeting function when the page loads
+    window.onload = displayGreeting;
+  </script>
+</head>
+<body>
+  <h1 id="greeting"></h1>
+</body>
+</html>
