@@ -4,12 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin: 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        select, input[type="date"], input[type="number"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px; /* Added margin for spacing */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #preview {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        #submitBtn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #submitBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>Expenses Summary</h1>
-    <form action="https://api.sheetmonkey.io/form/s2tNaVG3kzyiw91cPx6AyC" method="post">
+    <form id="expensesForm" action="https://api.sheetmonkey.io/form/s2tNaVG3kzyiw91cPx6AyC" method="post">
         <label for="branch">Branch:</label>
-        <select id="Branch" name="Branch">
+        <select id="BRANCH" name="BRANCH">
             <option value="Head Office">Head Office</option>
             <option value="Bakakyir">Bakakyir</option>
             <option value="Kojokrom">Kojokrom</option>
@@ -24,37 +91,54 @@
         </select><br><br>
 
         <label for="date">DATE:</label>
-        <input type="Date" id="Date" name="Date"><br><br>
+        <input type="DATE" id="DATE" name="DATE"><br><br>
 
         <label for="description">DESCRIPTION:</label><br>
-        <input type="checkbox" id="internet" name="Description" value="Internet Bill">
-        <label for="internet">Internet Bill</label><br>
-        <input type="checkbox" id="printing" name="Description" value="Printing and Stationery">
-        <label for="printing">Printing and Stationery</label><br>
-        <input type="checkbox" id="repairs-motor" name="Description" value="Repairs & Maintenance -motor">
-        <label for="repairs-motor">Repairs & Maintenance -motor</label><br>
-        <input type="checkbox" id="repairs-office" name="Description" value="Repairs & Maintenance - office">
-        <label for="repairs-office">Repairs & Maintenance - office</label><br>
-        <input type="checkbox" id="cleaning" name="Description" value="Cleaning and Sanitation">
-        <label for="cleaning">Cleaning and Sanitation</label><br>
-        <input type="checkbox" id="fuel" name="Description" value="Fuel and Lubricants">
-        <label for="fuel">Fuel and Lubricants</label><br>
-        <input type="checkbox" id="travel" name="Description" value="Travel and Transports">
-        <label for="travel">Travel and Transports</label><br>
-        <input type="checkbox" id="electricity" name="Description" value="Electricity">
-        <label for="electricity">Electricity</label><br>
-        <input type="checkbox" id="water" name="Description" value="Water">
-        <label for="water">Water</label><br>
-        <input type="checkbox" id="permit" name="Description" value="Business Operating Permit">
-        <label for="permit">Business Operating Permit</label><br>
-        <input type="checkbox" id="counterfeit" name="Description" value="Counterfeit and Others">
-        <label for="counterfeit">Counterfeit and Others</label><br><br>
+        <select id="DESCRIPTION" name="DESCRIPTION">
+            <option value="Internet Bill">Internet Bill</option>
+            <option value="Printing and Stationery">Printing and Stationery</option>
+            <option value="Repairs & Maintenance -motor">Repairs & Maintenance -motor</option>
+            <option value="Repairs & Maintenance - office">Repairs & Maintenance - office</option>
+            <option value="Cleaning and Sanitation">Cleaning and Sanitation</option>
+            <option value="Fuel and Lubricants">Fuel and Lubricants</option>
+            <option value="Travel and Transports">Travel and Transports</option>
+            <option value="Electricity">Electricity</option>
+            <option value="Water">Water</option>
+            <option value="Business Operating Permit">Business Operating Permit</option>
+            <option value="Counterfeit">Counterfeit</option>
+            <option value="Others">Others</option>
+        </select><br><br>
 
         <label for="amount">Amount:</label>
-        <input type="number" id="Amount" name="Amount"><br><br>
+        <input type="number" id="AMOUNT" name="AMOUNT"><br><br>
+        
+        <label for="Details">Details (separate with comma ,)</label><br>
+        <textarea id="LIST OF PARTICULARS" name="LIST OF PATICULARS" rows="4" cols="50"></textarea><br><br>
 
-        <input type="submit" value="Submit">
+        <button type="button" onclick="showPreview()">Preview</button>
+        <div id="preview" style="display: none;"></div>
+
+        <button id="submitBtn" type="submit">Submit</button>
     </form>
+
+    <script>
+        function showPreview() {
+            var branch = document.getElementById("BRANCH").value;
+            var date = document.getElementById("DATE").value;
+            var description = document.getElementById("DESCRIPTION").value;
+            var amount = document.getElementById("AMOUNT").value;
+            var particulars = document.getElementById("LIST OF PARTICULARS").value;
+
+            var previewContent = "<h2>Preview:</h2>" +
+                "<p><strong>Branch:</strong> " + branch + "</p>" +
+                "<p><strong>Date:</strong> " + date + "</p>" +
+                "<p><strong>Description:</strong> " + description + "</p>" +
+                "<p><strong>Amount:</strong> " + amount + "</p>" +
+                "<p><strong>List of Particulars:</strong> " + particulars + "</p>";
+
+            document.getElementById("preview").innerHTML = previewContent;
+            document.getElementById("preview").style.display = "block";
+        }
+    </script>
 </body>
 </html>
-
