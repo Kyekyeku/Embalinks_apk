@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks Report Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 3px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 3px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #grandTotal {
+            font-weight: bold;
+            color: green;
+        }
+        button {
+            padding: 15px;
+            background-color: #5c25f5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5053ec;
+        }
+    </style>
+</head>
+<body onload="setInitialDate()">
+
+<h2 Style="color:blue">AVAILABLE CASH</h2>
+
+<form id="cashForm" action="https://api.sheetmonkey.io/form/gVtvizyoPvnMrcLim66aDc" method="post">
+    <label for="date">Date:</label>
+    <input type="date" id="Date" name="DATE" readonly>
+    
+    <label for="branch">Branch:</label>
+    <select id="BRANCH" name="BRANCH" required>
+        <option value="Head Office">Head Office</option>
+        <option value="Bakakyir">Bakakyir</option>
+        <option value="Kojokrom">Kojokrom</option>
+        <option value="Anaji-K">Anaji-K</option>
+        <option value="Type C">Type C</option>
+        <option value="Vol Mgt">Vol Mgt</option>
+        <option value="Agona">Agona</option>
+        <option value="Axim">Axim</option>
+        <option value="Esiama">Esiama</option>
+        <option value="Elubo">Elubo</option>
+        <option value="Half Assini">Half Assini</option>
+    </select>
+    <table>
+        <tr>
+            <th>Cash Denomination</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>MTN REGULAR SIM</td>
+            <td><input type="number" name="quantity_MTN_REGULAR_SIM" onchange="calculateTotal('MTN_REGULAR_SIM')"></td>
+            <td id="total_MTN_REGULAR_SIM">0</td>
+        </tr>
+        <tr>
+            <td>MTN TRANSFER SIM</td>
+            <td><input type="number" name="quantity_MTN_TRANSFER_SIM" onchange="calculateTotal('MTN_TRANSFER_SIM')"></td>
+            <td id="total_MTN_TRANSFER_SIM">0</td>
+        </tr>
+        <tr>
+            <td>NOKIA G21</td>
+            <td><input type="number" name="quantity_NOKIA_G21" onchange="calculateTotal('NOKIA_G21')"></td>
+            <td id="total_NOKIA_G21">0</td>
+        </tr>
+        <tr>
+            <td>SAMSUNG GALAXY A24</td>
+            <td><input type="number" name="quantity_SAMSUNG_GALAXY_A24" onchange="calculateTotal('SAMSUNG_GALAXY_A24')"></td>
+            <td id="total_SAMSUNG_GALAXY_A24">0</td>
+        </tr>
+        <tr>
+            <td>TECNO SPARK 10 PRO</td>
+            <td><input type="number" name="quantity_TECNO_SPARK_10_PRO" onchange="calculateTotal('TECNO_SPARK_10_PRO')"></td>
+            <td id="total_TECNO_SPARK_10_PRO">0</td>
+        </tr>
+    </table><br>
+
+    <label for="FinalTotal"><strong>GRANDTOTAL:</strong></label> 
+    <input type="text" id="FinalTotal" name="GRAND TOTAL" readonly><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    function setInitialDate() {
+        // Get the current date and format it as YYYY-MM-DD
+        const currentDate = new Date().toISOString().split('T')[0];
+        // Set the current date as the value for the date input field
+        document.getElementById('Date').value = currentDate;
+    }
+
+    function calculateTotal(item) {
+        const quantity = document.getElementsByName(`quantity_${item}`)[0].value;
+        const unitPrice = getUnitPrice(item);
+        const total = quantity * unitPrice;
+        document.getElementById(`total_${item}`).textContent = total;
+        calculateGrandTotal();
+    }
+    
+    function calculateGrandTotal() {
+        const itemTotals = document.querySelectorAll('[id^="total_"]');
+        let grandTotal = 0;
+        itemTotals.forEach(itemTotal => {
+            grandTotal += parseFloat(itemTotal.textContent);
+        });
+
+        // Format grandTotal as GHC
+        const formattedGrandTotal = new Intl.NumberFormat('en-GH', { style: 'currency', currency: 'GHS' }).format(grandTotal);
+
+        // Update the FinalTotal field
+        document.getElementById('FinalTotal').value = formattedGrandTotal;
+    }
+
+    function getUnitPrice(item) {
+        const unitPrices = {
+            'MTN_REGULAR_SIM': 8.5,
+            'MTN_TRANSFER_SIM': 0,
+            'NOKIA_G21': 1650,
+            'SAMSUNG_GALAXY_A24': 2600,
+            'TECNO_SPARK_10_PRO': 1960,
+            'GHC0.5': 0.5,
+        };
+        return unitPrices[item];
+    }
+
+    function submitForm() {
+        // Add logic to submit the form data to management
+        alert('Form submitted!'); // Replace this with your actual submission logic
+    }
+</script>
+</body>
+</html>
+
