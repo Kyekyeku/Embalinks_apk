@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <form action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post">
+    <title>Receipts</title>
+   <style>
+         body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            border: 4px solid #ccf;
+            border-radius: 5px;
+        }
+        
+         label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+         input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"], input[type="button"] {
+            background-color: #007bff; /* Set initial color */
+            color: #fff; /* Set text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+         input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #007bff; /* Keep the same color on hover */
+            color: #fff;
+        }
+
+        #feedback {
+            margin-top: 10px;
+            display: none;
+        }
+
+        #preview {
+            margin-top: 20px;
+        }
+
+        #submitButton {
+            display: none;
+        }
+    </style>
+     <script>
+        // Function to update the preview based on user input
+        function updatePreview() {
+            var date = document.getElementById("Date").value;
+            var branch = document.getElementById("Branch").value;
+            var invoiceNumber = document.getElementById("InvoiceNumber").value;
+            var amount = document.getElementById("Amount").value;
+
+            // Update the preview section
+            document.getElementById("preview").innerHTML = "<h2>Preview:</h2>" +
+                "<p><strong>Date:</strong> " + date + "</p>" +
+                "<p><strong>Branch:</strong> " + branch + "</p>" +
+                "<p><strong>Invoice Number:</strong> " + invoiceNumber + "</p>" +
+                "<p><strong>Amount:</strong> GHS " + amount + "</p>";
+
+            // Display the submit button
+            document.getElementById("submitButton").style.display = "inline-block";
+        }
+
+        // Call the updatePreview function when the form values change
+        document.getElementById("receiptForm").addEventListener("input", updatePreview);
+
+        // Function to show the preview
+        function showPreview() {
+            updatePreview();
+            document.getElementById("preview").style.display = "block";
+        }
+
+        // Function to set the initial date
+        function setInitialDate() {
+            // Get the current date and format it as YYYY-MM-DD
+            const currentDate = new Date().toISOString().split('T')[0];
+            // Set the current date as the value for the date input field
+            document.getElementById('Date').value = currentDate;
+        }
+    </script>
+</head>
+<body onload="setInitialDate()">
+    <h1>Receipts</h1>
+    <form id="receiptForm">
+        <label for="Date">Date:</label>
+        <input type="date" id="Date" name="Date" required readonly><br><br>
+
+        <label for="Branch">Branch:</label>
+        <select id="Branch" name="Branch" required>
+            <option value="Head Office">Head Office</option>
+            <option value="Bakakyir">Bakakyir</option>
+            <option value="Kojokrom">Kojokrom</option>
+            <option value="Anaji-K">Anaji-K</option>
+            <option value="Type C">Type C</option>
+            <option value="Vol Mgt">Vol Mgt</option>
+            <option value="Agona">Agona</option>
+            <option value="Axim">Axim</option>
+            <option value="Esiama">Essiama</option>
+            <option value="Elubo">Elubo</option>
+            <option value="Half Assini">Half Assini</option>
+        </select><br><br>
+        
+         <label for="InvoiceNumber">Invoice Number:</label>
+        <input type="number" id="InvoiceNumber" name="InvoiceNumber" required><br><br>
+        
+         <label for="Amount">Amount in Ghana cedis:</label>
+        <input type="number" id="Amount" name="Amount" step="0.01" required><br><br>
+
+        <!-- Preview section -->
+        <div id="preview" style="display: none;"></div>
+
+        <input type="button" value="Preview" onclick="showPreview()">
+        <input type="submit" value="Submit" id="submitButton">
+    </form>
+</body>
+</html>
+
