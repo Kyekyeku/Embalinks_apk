@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,11 +71,19 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
+
+    /* Add a style for the month */
+    #month {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #136df3;
+    }
   
     #greeting {
       color: blue; /* Set the color of EMBA MANAGER to blue */
     }
-  </style>  
+  </style>
   <script>
     // Function to get the current time and return a greeting
     function getGreeting() {
@@ -94,25 +101,32 @@
       return greeting;
     }
 
-    // Function to get the current quarter
-    function getQuarter() {
+    // Function to get the current quarter and month
+    function getQuarterAndMonth() {
       var currentMonth = new Date().getMonth();
+      var quarter;
 
       if (currentMonth >= 0 && currentMonth <= 2) {
-        return "WE'RE IN QUARTER ONE";
+        quarter = "WE'RE IN QUARTER ONE";
       } else if (currentMonth >= 3 && currentMonth <= 5) {
-        return "WE'RE IN QUARTER TWO";
+        quarter = "WE'RE IN QUARTER TWO";
       } else if (currentMonth >= 6 && currentMonth <= 8) {
-        return "WE'RE IN QUARTER THREE";
+        quarter = "WE'RE IN QUARTER THREE";
       } else {
-        return "WE'RE IN QUARTER FOUR";
+        quarter = "WE'RE IN QUARTER FOUR";
       }
+
+      // Get the current month name
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var currentMonthName = monthNames[currentMonth];
+
+      return { quarter: quarter, month: currentMonthName };
     }
 
     // Function to display the greeting and additional text on the page
     function displayGreeting() {
       var greeting = getGreeting();
-      var quarter = getQuarter();
+      var quarterAndMonth = getQuarterAndMonth();
       var additionalText = "Kindly CLICK on Emba logo to select your form.";
 
       // Display greeting with comma or exclamation mark
@@ -163,7 +177,7 @@
 
       // Apply style based on the quarter
       var quarterSection = document.getElementById("quarter-section");
-      quarterSection.classList.add(getQuarterClass(quarter));
+      quarterSection.classList.add(getQuarterClass(quarterAndMonth.quarter));
 
       // Change background color every 5 seconds
       setInterval(function () {
@@ -172,8 +186,9 @@
         quarterSection.style.backgroundColor = randomColor;
       }, 5000);
 
-      // Display the quarter
-      document.getElementById("quarter").innerText = quarter;
+      // Display the quarter and month
+      document.getElementById("quarter").innerText = quarterAndMonth.quarter;
+      document.getElementById("month").innerText = quarterAndMonth.month;
     }
 
     // Function to get the class name for the quarter
@@ -196,11 +211,14 @@
     window.onload = displayGreeting;
   </script>
 </head>
+
 <body>
   <div id="quarter-section" class="quarter-section">
     <h1 id="greeting"></h1>
     <p id="quarter"></p>
+    <!-- Add a new element to display the month -->
+    <p id="month"></p>
   </div>
 </body>
-</html>
 
+</html>
