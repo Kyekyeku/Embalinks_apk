@@ -24,6 +24,20 @@
             margin-bottom: 10px;
             box-sizing: border-box;
         }
+        table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    input[name^="quantity_"], select[name^="quantity_"] {
+        width: 60px;
+    }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,9 +74,15 @@
 
 <h2 Style="color:blue">AVAILABLE CASH</h2>
 
-<form id="cashForm" action="https://api.sheetmonkey.io/form/7qVrN76fvpdptQSRRM6B1y" method="post">
+<form id="cashForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post">
     <label for="date">Date:</label>
     <input type="date" id="Date" name="DATE" readonly>
+
+    <input 
+    type="hidden"
+    name="x-sheetmonkey-insert-worksheet"
+    value="CASH IN HANDS SUMMARY"
+/>
     
     <label for="branch">Branch:</label>
     <select id="BRANCH" name="BRANCH" required>
@@ -136,6 +156,7 @@
     <label for="FinalTotal"><strong>GRANDTOTAL:</strong></label> 
     <input type="text" id="FinalTotal" name="GRAND TOTAL" readonly><br><br>
 
+    <button type="button" onclick="calculateGrandTotal()">Calculate</button>
     <button type="submit">Submit</button>
 </form>
 
@@ -189,8 +210,7 @@
     }
 
     function submitForm() {
-        // Add logic to submit the form data to management
-        alert('Form submitted!'); // Replace this with your actual submission logic
+        alert('Form submitted!');
     }
 </script>
 </body>
