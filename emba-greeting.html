@@ -83,6 +83,267 @@
     #greeting {
       color: blue; /* Set the color of EMBA MANAGER to blue */
     }
+
+    /* Style for the buttons */
+    .button-container {
+      margin-top: 20px;
+    }
+
+    .button-container a {
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px 20px;
+      background-color: #4839d4;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .button-container a:hover {
+      background-color: #5637db;
+    }
+
+    /* Change the background color of the logout button */
+    .button-container a#logout-button {
+      background-color: red; /* Change the background color to red */
+    }
+  </style>
+  <script>
+    // Function to get the current time and return a greeting
+    function getGreeting() {
+      var currentTime = new Date().getHours();
+      var greeting;
+
+      if (currentTime < 12) {
+        greeting = "Good morning";
+      } else if (currentTime < 18) {
+        greeting = "Good afternoon";
+      } else {
+        greeting = "Good evening";
+      }
+
+      return greeting;
+    }
+
+    // Function to get the current quarter and month
+    function getQuarterAndMonth() {
+      var currentMonth = new Date().getMonth();
+      var quarter;
+
+      if (currentMonth >= 0 && currentMonth <= 2) {
+        quarter = "WE'RE IN QUARTER ONE";
+      } else if (currentMonth >= 3 && currentMonth <= 5) {
+        quarter = "WE'RE IN QUARTER TWO";
+      } else if (currentMonth >= 6 && currentMonth <= 8) {
+        quarter = "WE'RE IN QUARTER THREE";
+      } else {
+        quarter = "WE'RE IN QUARTER FOUR";
+      }
+
+      // Get the current month name
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var currentMonthName = monthNames[currentMonth];
+
+      return { quarter: quarter, month: currentMonthName };
+    }
+
+    // Function to display the greeting and additional text on the page
+    function displayGreeting() {
+      var greeting = getGreeting();
+      var quarterAndMonth = getQuarterAndMonth();
+      var additionalText = "";
+
+      // Display greeting with comma or exclamation mark
+      var greetingText = greeting.endsWith("g") ? greeting + "," : greeting + "!";
+      document.getElementById("greeting").innerHTML = `<span style="color: red;">${greetingText}</span> EMBA MANAGER!`;
+
+      // Display additional text in a new paragraph
+      var additionalParagraph = document.createElement("p");
+      additionalParagraph.innerText = additionalText;
+
+      // Display current time in bold and big font
+      var timeText = document.createElement("span");
+      timeText.style.fontWeight = "bold";
+      timeText.style.fontSize = "38px";
+      timeText.innerText = new Date().toLocaleTimeString();
+
+      // Append elements to the body
+      additionalParagraph.appendChild(document.createElement("br")); // Add a line break
+      additionalParagraph.appendChild(timeText);
+      document.body.appendChild(additionalParagraph);
+
+      // Add today's notification button
+      var notificationText = "Today's Notification";
+      var notificationButton = document.createElement("button");
+      notificationButton.id = "notification";
+      notificationButton.innerText = notificationText;
+
+      // Append button to the body
+      document.body.appendChild(notificationButton);
+
+      // Add click event to the notification button
+      notificationButton.addEventListener("click", function () {
+        alert("Hello! Emba Manager Kindly Report Today Before You Close. Thank You.");
+
+        // Add a new paragraph for the message from the Head Office
+        var headOfficeMessage = "Thank You. Best regards, Pius";
+        var headOfficeParagraph = document.createElement("p");
+        headOfficeParagraph.innerText = headOfficeMessage;
+
+        // Set the heading for the message
+        var headOfficeHeading = document.createElement("h2");
+        headOfficeHeading.innerText = "From Head Office";
+
+        // Append the heading and paragraph to the body
+        document.body.appendChild(headOfficeHeading);
+        document.body.appendChild(headOfficeParagraph);
+      });
+
+      // Apply style based on the quarter
+      var quarterSection = document.getElementById("quarter-section");
+      quarterSection.classList.add(getQuarterClass(quarterAndMonth.quarter));
+
+      // Change background color every 5 seconds
+      setInterval(function () {
+        var colors = ["#FFFF99", "#ADD8E6", "white"]; // Yellow, Light Blue, White
+        var randomColor = colors[Math.floor(Math.random() * colors.length)];
+        quarterSection.style.backgroundColor = randomColor;
+      }, 5000);
+
+      // Display the quarter and month
+      document.getElementById("quarter").innerText = quarterAndMonth.quarter;
+      document.getElementById("month").innerText = quarterAndMonth.month;
+    }
+
+    // Function to get the class name for the quarter
+    function getQuarterClass(quarter) {
+      switch (quarter) {
+        case "WE'RE IN QUARTER ONE":
+          return "first-quarter";
+        case "WE'RE IN QUARTER TWO":
+          return "second-quarter";
+        case "WE'RE IN QUARTER THREE":
+          return "third-quarter";
+        case "WE'RE IN QUARTER FOUR":
+          return "fourth-quarter";
+        default:
+          return "";
+      }
+    }
+
+    // Call the displayGreeting function when the page loads
+    window.onload = displayGreeting;
+  </script>
+</head>
+
+<body>
+  <div id="quarter-section" class="quarter-section">
+    <h1 id="greeting"></h1>
+    <p id="quarter"></p>
+    <!-- Add a new element to display the month -->
+    <p id="month"></p>
+
+    <!-- Button Container -->
+    <div class="button-container">
+      <a href="go:S1">Open Stock Available</a>
+      <a href="go:S2">Open Cash Available</a>
+      <a href="go:S3">Open Expenses</a>
+      <a href="go:S4">Open Receipts</a>
+      <a href="go:S5">Open Payment to Office</a>
+    </div>
+    <div class="button-container">
+      <!-- Change the background color of the logout button -->
+      <a href="go:S90" id="logout-button">LOGOUT</a>
+    </div>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greeting Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f0f0f0; /* Set a default background color */
+    }
+  
+    #time {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  
+    #notification {
+      cursor: pointer;
+      background-color: #4839d4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+  
+    #notification:hover {
+      background-color: white;
+      color: black;
+      border: 2px solid #5637db;
+    }
+  
+    /* Quarterly sections with different background colors */
+    .quarter-section {
+      width: 80%;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      transition: background-color 1s ease-in-out; /* Smooth transition effect */
+    }
+  
+    .first-quarter {
+      background-color: white;
+    }
+  
+    .second-quarter {
+      background-color: #FFFF99; /* Yellow background */
+    }
+  
+    .third-quarter {
+      background-color: #ADD8E6; /* Light blue background */
+    }
+  
+    .fourth-quarter {
+      background-color: white;
+    }
+  
+    /* Maximize the font size and make it bold for the quarter */
+    #quarter {
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* Add a style for the month */
+    #month {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #136df3;
+    }
+  
+    #greeting {
+      color: blue; /* Set the color of EMBA MANAGER to blue */
+    }
   </style>
   <script>
     // Function to get the current time and return a greeting

@@ -20,7 +20,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(202, 196, 196, 0.1);
             text-align: center;
         }
         h2 {
@@ -64,7 +64,7 @@
         }
         button {
             padding: 15px;
-            background-color: #5c25f5;
+            background-color: #3a08ec;
             color: white;
             border: none;
             border-radius: 5px;
@@ -77,59 +77,58 @@
         }
     </style>
 </head>
-<body onload="setInitialDate()">
+<body onload="setInitialDate(); initializeStockQuantities();">
 
-<form action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post">
-    <input 
-            type="hidden"
-            name="x-sheetmonkey-insert-worksheet"
-            value="RECIEPTS"
-        />
-
+<form id="cashForm" action="https://api.sheetmonkey.io/form/jj2sfVgzkwL5z4sDjVSzh1" method="post">
     <label for="date"><strong>DATE</strong></label>
     <input type="date" id="Date" name="DATE" readonly>
+
+    <input 
+    type="hidden"
+    name="x-sheetmonkey-insert-worksheet"
+    value="STOCKS SUMMARY"
+/>
     
     <label for="branch"><strong>BRANCH</strong></label>
-    <select id="BRANCH" name="BRANCH" required>
-        <option value="Head Office">Head Office</option>
-        <option value="Bakakyir">Bakakyir</option>
-        <option value="Kojokrom">Kojokrom</option>
-        <option value="Anaji-K">Anaji-K</option>
-        <option value="Type C">Type C</option>
-        <option value="Vol Mgt">Vol Mgt</option>
-        <option value="Agona">Agona</option>
-        <option value="Axim">Axim</option>
-        <option value="Esiama">Esiama</option>
-        <option value="Elubo">Elubo</option>
-        <option value="Half Assini">Half Assini</option>
+    <select id="BRANCH" name="BRANCH" required readonly>
+        <option value="Defaut">Defaut branch</option>
     </select>
-    <label for="Invoice"><strong>INVOICE #</strong></label>
-    <input type="number" id="Invoice" name="INVOICE #"  placeholder="e.g., 00156" required>
     <table>
         <tr>
-            <th>STOCK RECIEPTS</th>
+            <th>ITEM</th>
             <th>QUANTITY</th>
+            <th>RETURNS</th>
             <th>TOTAL</th>
         </tr>
         <tr>
             <td>MTN REGULAR SIM</td>
-            <td><input type="number" name="quantity_MTN_REGULAR_SIM" onchange="calculateTotal('MTN_REGULAR_SIM')"></td>
-            <td id="total_MTN_REGULAR_SIM">0</td>
+            <td><input type="number" name="quantity_MTN_REGULAR_SIM" onchange="calculateReturnTotal('MTN_REGULAR_SIM')"></td>
+            <td><input type="number" name="return_quantity_MTN_REGULAR_SIM" onchange="calculateReturnTotal('MTN_REGULAR_SIM')"></td>
+            <td id="return_total_MTN_REGULAR_SIM">0</td>
         </tr>
-        <tr>
+         <tr>
             <td>NOKIA G21</td>
-            <td><input type="number" name="quantity_NOKIA_G21" onchange="calculateTotal('NOKIA_G21')"></td>
-            <td id="total_NOKIA_G21">0</td>
-        </tr>
-        <tr>
-            <td>SAMSUNG GALAXY A24</td>
-            <td><input type="number" name="quantity_SAMSUNG_GALAXY_A24" onchange="calculateTotal('SAMSUNG_GALAXY_A24')"></td>
-            <td id="total_SAMSUNG_GALAXY_A24">0</td>
+            <td><input type="number" name="quantity_NOKIA_G21" onchange="calculateReturnTotal('NOKIA_G21')"></td>
+            <td><input type="number" name="return_quantity_NOKIA_G21" onchange="calculateReturnTotal('NOKIA_G21')"></td>
+            <td id="return_total_NOKIA_G21">0</td>
         </tr>
         <tr>
             <td>TECNO SPARK 10 PRO</td>
-            <td><input type="number" name="quantity_TECNO_SPARK_10_PRO" onchange="calculateTotal('TECNO_SPARK_10_PRO')"></td>
-            <td id="total_TECNO_SPARK_10_PRO">0</td>
+            <td><input type="number" name="quantity_TECNO_SPARK_10_PRO" onchange="calculateReturnTotal('TECNO_SPARK_10_PRO')"></td>
+            <td><input type="number" name="return_quantity_TECNO_SPARK_10_PRO" onchange="calculateReturnTotal('TECNO_SPARK_10_PRO')"></td>
+            <td id="return_total_TECNO_SPARK_10_PRO">0</td>
+        </tr>
+        <tr>
+            <td>NOKIA G22</td>
+            <td><input type="number" name="quantity_NOKIA_G22" onchange="calculateReturnTotal('NOKIA_G22')"></td>
+            <td><input type="number" name="return_quantity_NOKIA_G22" onchange="calculateReturnTotal('NOKIA_G22')"></td>
+            <td id="return_total_NOKIA_G22">0</td>
+        </tr>
+        <tr>
+            <td>SAMSUNG GALAXY A24</td>
+            <td><input type="number" name="quantity_SAMSUNG_GALAXY_A24" onchange="calculateReturnTotal('SAMSUNG_GALAXY_A24')"></td>
+            <td><input type="number" name="return_quantity_SAMSUNG_GALAXY_A24" onchange="calculateReturnTotal('SAMSUNG_GALAXY_A24')"></td>
+            <td id="return_total_SAMSUNG_GALAXY_A24">0</td>
         </tr>
     </table><br>
 
@@ -141,31 +140,35 @@
 
 <script>
     function setInitialDate() {
-        // Get the current date and format it as YYYY-MM-DD
         const currentDate = new Date().toISOString().split('T')[0];
-        // Set the current date as the value for the date input field
         document.getElementById('Date').value = currentDate;
     }
 
-    function calculateTotal(item) {
-        const quantity = document.getElementsByName(`quantity_${item}`)[0].value;
+    function calculateReturnTotal(item) {
+        const quantityInput = document.getElementsByName(`quantity_${item}`)[0];
+        const returnInput = document.getElementsByName(`return_quantity_${item}`)[0];
         const unitPrice = getUnitPrice(item);
-        const total = quantity * unitPrice;
-        document.getElementById(`total_${item}`).textContent = total;
+
+        // Parse quantity and returns as integers
+        const quantity = parseInt(quantityInput.value) || 0;
+        const returns = parseInt(returnInput.value) || 0;
+
+        // Calculate return total and update table
+        const returnTotal = Math.max(quantity - returns, 0) * unitPrice;
+        document.getElementById(`return_total_${item}`).textContent = returnTotal;
+
         calculateGrandTotal();
     }
     
     function calculateGrandTotal() {
-        const itemTotals = document.querySelectorAll('[id^="total_"]');
+        const itemTotals = document.querySelectorAll('[id^="return_total_"]');
         let grandTotal = 0;
         itemTotals.forEach(itemTotal => {
             grandTotal += parseFloat(itemTotal.textContent);
         });
 
-        // Format grandTotal as GHC
         const formattedGrandTotal = new Intl.NumberFormat('en-GH', { style: 'currency', currency: 'GHS' }).format(grandTotal);
 
-        // Update the FinalTotal field
         document.getElementById('FinalTotal').value = formattedGrandTotal;
     }
 
@@ -176,17 +179,11 @@
             'NOKIA_G21': 1650,
             'SAMSUNG_GALAXY_A24': 2600,
             'TECNO_SPARK_10_PRO': 1960,
-            'GHC0.5': 0.5,
+            'NOKIA_G22': 1820,
         };
         return unitPrices[item];
-    }
-
-    function submitForm() {
-        // Add logic to submit the form data to management
-        alert('Form submitted!'); // Replace this with your actual submission logic
     }
 </script>
 </body>
 </html>
-
 
