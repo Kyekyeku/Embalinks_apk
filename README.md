@@ -1,7 +1,7 @@
 # Tasks Breakdown
 
-### From "Home Page to Privacy Policy"
-HOME PAGE
+### From "Login to App privacy"
+Login Page
 - [ ] Menu bar & Emba logo at upper left corner.
 - [ ] Profile logo, Notification logo and office location logo at upper right corner.
 - [ ] A Rectagular sharp changing background colour randomly with this color:Blue,Yellow and white
